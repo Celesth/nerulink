@@ -1,129 +1,61 @@
-import { useState } from 'react';
+"use client";
 
-export default function Home() {
-  const [videoUrl, setVideoUrl] = useState('');
+import { useState } from "react";
+
+export default function HomePage() {
+  const [videoUrl, setVideoUrl] = useState("");
   const [qualities, setQualities] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFetchQualities = async () => {
     if (!videoUrl) {
-      alert('Please enter a valid YouTube URL!');
+      alert("Please enter a valid YouTube URL!");
       return;
     }
 
     setIsLoading(true);
 
-    // Simulating quality fetch (replace with API call if needed)
+    // Simulated fetch (replace with actual API call)
     setTimeout(() => {
-      setQualities(['144p', '360p', '720p', '1080p']);
+      setQualities(["144p", "360p", "720p", "1080p"]);
       setIsLoading(false);
-    }, 1000); // Simulated delay
+    }, 1000);
   };
 
   const handleDownload = (quality: string) => {
-    alert(`Download started for quality: ${quality}`); // Replace with actual API call
+    alert(`Downloading in ${quality}`); // Replace with actual download logic
   };
 
   return (
-    <div className="container">
-      <h1 className="title">YouTube Downloader</h1>
-
+    <div className="flex flex-col items-center gap-6">
       <input
         type="text"
         placeholder="Enter YouTube URL..."
         value={videoUrl}
         onChange={(e) => setVideoUrl(e.target.value)}
-        className="input-box"
+        className="w-full max-w-xl p-4 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring focus:ring-blue-500"
       />
 
-      <button onClick={handleFetchQualities} className="fetch-button">
-        {isLoading ? 'Loading...' : 'Fetch Qualities'}
+      <button
+        onClick={handleFetchQualities}
+        className="px-6 py-3 text-lg font-medium rounded-lg bg-blue-500 hover:bg-blue-600 transition shadow-lg"
+      >
+        {isLoading ? "Loading..." : "Fetch Qualities"}
       </button>
 
-      <div className="qualities-container">
-        {qualities.map((quality, index) => (
-          <button
-            key={index}
-            className="quality-button"
-            onClick={() => handleDownload(quality)}
-          >
-            {quality}
-          </button>
-        ))}
-      </div>
-
-      <style jsx>{`
-        .container {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          height: 100vh;
-          background: linear-gradient(145deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-          backdrop-filter: blur(10px);
-          color: #fff;
-        }
-
-        .title {
-          font-size: 2.5rem;
-          margin-bottom: 2rem;
-        }
-
-        .input-box {
-          width: 70%;
-          padding: 1rem;
-          border: none;
-          outline: none;
-          border-radius: 20px;
-          margin-bottom: 1rem;
-          font-size: 1.2rem;
-          text-align: center;
-          background: rgba(255, 255, 255, 0.2);
-          color: #fff;
-          backdrop-filter: blur(5px);
-        }
-
-        .fetch-button {
-          padding: 0.8rem 2rem;
-          font-size: 1rem;
-          color: #fff;
-          background: linear-gradient(145deg, #00c6ff, #0072ff);
-          border: none;
-          border-radius: 25px;
-          cursor: pointer;
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-          margin-bottom: 2rem;
-          transition: transform 0.2s;
-        }
-
-        .fetch-button:hover {
-          transform: scale(1.05);
-        }
-
-        .qualities-container {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 1rem;
-        }
-
-        .quality-button {
-          padding: 0.6rem 1.2rem;
-          font-size: 1rem;
-          border: none;
-          border-radius: 25px;
-          cursor: pointer;
-          background: rgba(255, 255, 255, 0.1);
-          box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2);
-          backdrop-filter: blur(10px);
-          color: #fff;
-          transition: transform 0.2s;
-        }
-
-        .quality-button:hover {
-          transform: scale(1.1);
-        }
-      `}</style>
+      {qualities.length > 0 && (
+        <div className="flex flex-wrap gap-4 mt-4">
+          {qualities.map((quality, index) => (
+            <button
+              key={index}
+              onClick={() => handleDownload(quality)}
+              className="px-4 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 transition shadow-md"
+            >
+              {quality}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
-}
+    }
